@@ -10,7 +10,7 @@ export class Product {
     @Column({ type: 'varchar', length: 100, nullable: false })
     name: string;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+    @Column({ type: 'decimal', precision: 6, scale: 2, nullable: false, default: 0.00 })
     price: number;
 
     @ManyToOne(() => Category, category => category.products)
