@@ -14,71 +14,41 @@ export class UserController {
     }
 
     async show(req: Request, res: Response) {
-        try {
-            const user = await userService.show(Number(req.params.id));
-            return res.status(201).json(user);
-        } catch (error: any) {
-            if (error.message === 'User not found') {
-                return res.status(404).json({ message: error.message });
-            }
 
-            return res.status(500).json({ message: 'Internal server error' });
-        }
+        const user = await userService.show(Number(req.params.id));
+        return res.status(201).json(user);
+
     }
 
     async create(req: Request, res: Response) {
-        try {
-            const { name, email } = req.body;
 
-            const user = await userService.create(name, email);
+        const { name, email, password } = req.body;
 
-            return res.status(201).json(user);
-        } catch (error: any) {
-            if (
-                error.message === 'Name and email are required' ||
-                error.message === 'Email already in use'
-            ) {
-                return res.status(400).json({ message: error.message });
-            }
+        const user = await userService.create(name, email, password);
 
-            return res.status(500).json({ message: 'Internal server error' });
-        }
+        return res.status(201).json(user);
+
     }
 
     async update(req: Request, res: Response) {
-        try {
-            const { name, email } = req.body;
 
-            const user = await userService.update(
-                Number(req.params.id),
-                name,
-                email
-            );
+        const { name, email } = req.body;
 
-            return res.json(user);
-        } catch (error: any) {
-            if (
-                error.message === 'User not found' ||
-                error.message === 'Email already in use'
-            ) {
-                return res.status(400).json({ message: error.message });
-            }
+        const user = await userService.update(
+            Number(req.params.id),
+            name,
+            email
+        );
 
-            return res.status(500).json({ message: 'Internal server error' });
-        }
+        return res.json(user);
+
     }
 
     async delete(req: Request, res: Response) {
-        try {
-            await userService.delete(Number(req.params.id));
 
-            return res.status(204).send();
-        } catch (error: any) {
-            if (error.message === 'User not found') {
-                return res.status(404).json({ message: error.message });
-            }
+        await userService.delete(Number(req.params.id));
 
-            return res.status(500).json({ message: 'Internal server error' });
-        }
+        return res.status(204).send();
+
     }
 }

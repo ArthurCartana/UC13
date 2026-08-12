@@ -16,6 +16,9 @@ export class User {
     @Column({ length: 100, unique: true })
     email: string;
 
+    @Column ({ length: 255, nullable: false })
+    password: string
+
     /*
         - Indica para o ORM que existe uma relação de 1 para Muitos (1:N) com a Entidade Posts.
         - Essa Relação será indicada da outra entidade também, e o ORM irá criar a Chave Estrangei (FK) automaticamente.

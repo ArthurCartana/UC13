@@ -26,7 +26,7 @@ export class UserService {
         return user;
     }
 
-    async create(name: string, email: string) {
+    async create(name: string, email: string, password: string) {
         if (!name || !email) {
             throw new Error('Name and email are required');
         }
@@ -39,7 +39,8 @@ export class UserService {
 
         const user = userRepository.create({
             name,
-            email
+            email,
+            password
         });
 
         await userRepository.save(user);

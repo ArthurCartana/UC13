@@ -4,70 +4,52 @@ import { ProductService } from '../services/ProductService';
 const productService = new ProductService();
 
 export class ProductController {
-    async list(req: Request, res: Response) {
-        try {
-            return res.status(200).json(await productService.list());
-        } catch {
-            return res.status(500).json({ message: 'Internal server error' });
+        async list(req: Request, res: Response) {
+
+                return res.status(200).json(await productService.list());
+
         }
-    }
 
-    async show(req: Request, res: Response) {
-        try {
-            return res.status(200).json(await productService.show(Number(req.params.id)));
-        } catch (error: any) {
-            if (error.message === 'Product not found') {
-                return res.status(404).json({ message: error.message });
-            }
+        async show(req: Request, res: Response) {
 
-            return res.status(500).json({ message: 'Internal server error' });
+                return res.status(200).json(await productService.show(Number(req.params.id)));
+
         }
-    }
 
-    async create(req: Request, res: Response) {
-        try {
-            const { name, price, categoryId } = req.body;
+        async create(req: Request, res: Response) {
 
-            const product = await productService.create(
-                name,
-                Number(price),
-                Number(categoryId)
-            );
+                const { name, price, categoryId } = req.body;
 
-            return res.status(201).json(product);
-        } catch (error: any) {
-            return res.status(400).json({ message: error.message });
+                const product = await productService.create(
+                        name,
+                        Number(price),
+                        Number(categoryId)
+                );
+
+                return res.status(201).json(product);
+
         }
-    }
 
-    async update(req: Request, res: Response) {
-        try {
-            const { name, price, categoryId } = req.body;
+        async update(req: Request, res: Response) {
 
-            const product = await productService.update(
-                Number(req.params.id),
-                name,
-                price ? Number(price) : undefined,
-                categoryId ? Number(categoryId) : undefined
-            );
+                const { name, price, categoryId } = req.body;
 
-            return res.status(200).json(product);
-        } catch (error: any) {
-            return res.status(400).json({ message: error.message });
+                const product = await productService.update(
+                        Number(req.params.id),
+                        name,
+                        price ? Number(price) : undefined,
+                        categoryId ? Number(categoryId) : undefined
+                );
+
+                return res.status(200).json(product);
+
         }
-    }
 
-    async delete(req: Request, res: Response) {
-        try {
-            await productService.delete(Number(req.params.id));
+        async delete(req: Request, res: Response) {
 
-            return res.status(204).send();
-        } catch (error: any) {
-            if (error.message === 'Product not found') {
-                return res.status(404).json({ message: error.message });
-            }
+                await productService.delete(Number(req.params.id));
 
-            return res.status(500).json({ message: 'Internal server error' });
+                return res.status(204).send();
+
         }
-    }
 }
